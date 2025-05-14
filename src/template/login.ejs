@@ -44,6 +44,8 @@
 
         // Si connexion réussie et token reçu, affiche et stocke le token
         if (result.token) {
+              window.location.href = '/';
+
             console.log('Votre token : ' + result.token);
             localStorage.setItem('token', result.token);
         }
