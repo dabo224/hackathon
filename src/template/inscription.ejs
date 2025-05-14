@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; }
+        .container { max-width: 400px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px #ccc; }
+        h2 { text-align: center; }
+        label { display: block; margin-top: 15px; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; border-radius: 4px; border: 1px solid #ccc; }
+        button { margin-top: 20px; width: 100%; padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Inscription</h2>
+        <form id="form-inscription">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" name="nom" required>
+
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="titre">Titre</label>
+            <select id="titre" name="titre" required>
+                <option value="">Sélectionnez un titre</option>
+                <option value="touriste">Touriste</option>
+                <option value="administrateur">Administrateur</option>
+                <option value="citoyen">Citoyen</option>
+            </select>
+
+            <label for="telephone">Numéro de téléphone</label>
+            <input type="tel" id="telephone" name="telephone" required>
+
+            <button type="submit">S'inscrire</button>
+        </form>
+        <div id="message"></div>
+    </div>
+    <script>
+        document.getElementById('form-inscription').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const data = {
+                nom: document.getElementById('nom').value,
+                email: document.getElementById('email').value,
+                motdepasse: document.getElementById('password').value,
+                titre: document.getElementById('titre').value,
+                telephone: document.getElementById('telephone').value
+            };
+            const response = await fetch('/inscription', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            document.getElementById('message').textContent = result.message;
+        });
+    </script>
+</body>
+</html>
