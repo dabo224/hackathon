@@ -1,0 +1,65 @@
+<header style="background:#fff; box-shadow:0 2px 8px #eee; padding:10px 0;">
+    <nav style="display:flex; align-items:center; justify-content:space-between; max-width:1100px; margin:0 auto;">
+        <!-- Logo et nom du site -->
+        <div style="display:flex; align-items:center;">
+            <span style="font-size:1.5em; font-weight:bold; color:#007bff;">Guinée Refresh</span>
+        </div>
+        <!-- Liens de navigation -->
+        <ul style="display:flex; list-style:none; gap:30px; margin:0; padding:0; align-items:center;">
+            <li>
+                <a href="/" style="text-decoration:none; color:#333; display:flex; align-items:center;">
+                    <svg width="22" height="22" fill="none" stroke="#007bff" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M4 12L2 14m0 0l10-10 10 10m-18 0V20a2 2 0 0 0 2 2h4m8-2a2 2 0 0 0 2-2v-6m-6 8v-4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span style="margin-left:6px;">Accueil</span>
+                </a>
+            </li>
+            <li>
+                <a href="/gestion" style="text-decoration:none; color:#333; display:flex; align-items:center;">
+                    <svg width="20" height="20" fill="none" stroke="#007bff" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+                    <span style="margin-left:6px;">Gestion</span>
+                </a>
+            </li>
+            <li>
+                <a href="/vote" style="text-decoration:none; color:#333; display:flex; align-items:center;">
+                    <svg width="20" height="20" fill="none" stroke="#007bff" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <span style="margin-left:6px;">Vote</span>
+                </a>
+            </li>
+            <li>
+                <a href="/etat" style="text-decoration:none; color:#333; display:flex; align-items:center;">
+                    <svg width="20" height="20" fill="none" stroke="#007bff" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    <span style="margin-left:6px;">État du pays</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Nom de l'utilisateur à droite -->
+        <div style="font-weight:bold; color:#007bff;">
+            <span id="user-nom">Utilisateur</span>
+        </div>
+    </nav>
+</header>
+<script>
+    // Fonction pour décoder un JWT (sans vérification de signature)
+    function parseJwt (token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // Récupère le token du localStorage et affiche le nom
+    const token = localStorage.getItem('token');
+    if (token) {
+        const payload = parseJwt(token);
+        if (payload && payload.nom) {
+            document.getElementById('user-nom').textContent = payload.nom;
+        }
+    }
+</script>

@@ -32,9 +32,6 @@ module.exports = (sequelize) => {
         timestamps: false
     });
 
-    Signalisation.associate = (models) => {
-        Signalisation.belongsTo(models.User, { foreignKey: 'userID' });
-    };
     return Signalisation;
 
 }

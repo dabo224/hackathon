@@ -33,9 +33,6 @@ module.exports = (sequelize) => {
         timestamps: false
     });
 
-    User.associate = (models) => {
-        User.hasMany(models.Signalisation, { foreignKey: 'userID' });
-    };
     return User;
 
 }

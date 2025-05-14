@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+        <%- include('./partials/header') %>
         <h2>Signaler un emplacement</h2>
         <form id="signal-form" enctype="multipart/form-data">
             <label for="description">Description</label>
@@ -34,14 +34,17 @@
             <button type="submit">Envoyer</button>
         </form>
         <div id="message"></div>
+        <%- include('./partials/footer') %>
+
     </div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // Initialisation de la carte
-        var map = L.map('map').setView([48.8566, 2.3522], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+   var map = L.map('map').setView([9.9456, -9.6966], 7);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
         var marker;
         map.on('click', function(e) {
@@ -63,7 +66,7 @@
             }
 
             const formData = new FormData(this);
-            
+
 
             const response = await fetch('/signalisation', {
                 method: 'POST',
