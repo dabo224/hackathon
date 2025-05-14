@@ -20,7 +20,7 @@ Signalisation.belongsTo(User, { foreignKey: 'userID' });
 // Fonction pour vérifier la connexion et synchroniser la base
 const initDB = async () => {
     try {
-        await sequelize.sync({ force: true });
+        await sequelize.sync({ force: false });
         console.log('Connexion à la base de données réussie !');
     } catch (error) {
         console.error('Impossible de se connecter à la base de données :', error);

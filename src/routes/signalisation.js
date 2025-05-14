@@ -20,22 +20,25 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 module.exports = (app) => {
-    app.post('/signalisation', upload.single('photo'), async (req, res) => {
-        try {
-            const { description, latitude, longitude } = req.body;
-            const photo = req.file ? req.file.filename : null;
+app.post('/signalisation', upload.single('photo'), async (req, res) => {
+    try {
+        const { description, latitude, longitude, userID } = req.body;
+        console.log(req.body)
+        console.log('userID reçu:', userID); // Vérification
 
-            await Signalisation.create({
-                description,
-                photo,
-                latitude,
-                longitude
-            });
+        const photo = req.file ? req.file.filename : null;
 
-            res.status(201).json({ message: 'Signalisation enregistrée avec succès !' });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Erreur lors de l\'enregistrement' });
-        }
-    });
-};
+        await Signalisation.create({
+            description,
+            photo,
+            latitude,
+            longitude,
+            userID: 1
+        });
+
+        res.status(201).json({ message: 'Signalisation enregistrée avec succès !' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erreur lors de l\'enregistrement' });
+    }
+});};

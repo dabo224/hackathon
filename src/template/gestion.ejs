@@ -1,0 +1,28 @@
+<%- include('./partials/header') %>
+
+<h2>Carte des signalisations</h2>
+<p>ici vous retrouvez toutes les signalisations qui ont été faites sur cette carte </p>
+<div id="map" style="height: 400px; width: 100%; margin-bottom: 30px; border-radius: 8px;"></div>
+
+<!-- Ajoute Leaflet.js -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Initialise la carte centrée sur la Guinée
+    var map = L.map('map').setView([9.9456, -9.6966], 7);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    <% signalisations.forEach(function(sig) { %>
+        L.marker([<%= sig.latitude %>, <%= sig.longitude %>]).addTo(map)
+            .bindPopup(
+                `<strong><%= sig.User ? sig.User.nom : 'Inconnu' %></strong><br>
+                <em><%= sig.User ? sig.User.titre : '' %></em><br>
+                <%= sig.description %>`
+            );
+    <% }) %>
+</script>
+
+<%- include('./partials/footer') %>

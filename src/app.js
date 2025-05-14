@@ -22,6 +22,9 @@ require('./routes/pageInscription')(app)
 require('./routes/login')(app)
 require('./routes/signalisation')(app);
 require('./routes/contenuSignalisation')(app);
+require('./routes/gestion')(app);
+require('./routes/votes')(app)
+
 
 initDB()
 

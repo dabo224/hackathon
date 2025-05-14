@@ -1,0 +1,50 @@
+<%- include('./partials/header') %>
+
+<div class="container" style="max-width:900px; margin:40px auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 8px #ccc;">
+    <h2>Gestion des signalisations</h2>
+    <table style="width:100%; border-collapse:collapse;">
+        <thead>
+            <tr style="background:#f4f4f4;">
+                <th>ID</th>
+                <th>Description</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Photo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% signalisations.forEach(function(sig) { %>
+                <tr>
+                    <td><%= sig.id %></td>
+                    <td><%= sig.description %></td>
+                    <td><%= sig.latitude %></td>
+                    <td><%= sig.longitude %></td>
+                    <td>
+                        <% if(sig.photo) { %>
+                            <img src="/uploads/<%= sig.photo %>" alt="photo" style="max-width:60px; max-height:60px;">
+                        <% } else { %>
+                            Aucune
+                        <% } %>
+                    </td>
+                    <td>
+                        <!-- Formulaire de modification -->
+                        <form action="/signalisation/edit/<%= sig.id %>" method="POST" enctype="multipart/form-data" style="display:inline;">
+                            <input type="text" name="description" value="<%= sig.description %>" required>
+                            <input type="text" name="latitude" value="<%= sig.latitude %>" required style="width:80px;">
+                            <input type="text" name="longitude" value="<%= sig.longitude %>" required style="width:80px;">
+                            <input type="file" name="photo" accept="image/*">
+                            <button type="submit">Modifier</button>
+                        </form>
+                        <!-- Formulaire de suppression -->
+                        <form action="/signalisation/delete/<%= sig.id %>" method="POST" style="display:inline;">
+                            <button type="submit" onclick="return confirm('Supprimer cette signalisation ?')">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('./partials/footer') %>

@@ -7,7 +7,7 @@ module.exports = (app) => {
             const signalisations = await Signalisation.findAll({
                 include: [{ model: User, attributes: ['nom', 'email', 'titre'] }]
             });
-            res.json({ signalisations });
+            res.render('etat-pays',{ signalisations });
         // } catch (error) {
         //     console.error(error);
         //     res.status(500).send('Erreur lors de la récupération des signalisations');
