@@ -57,7 +57,13 @@
                 body: JSON.stringify(data)
             });
             const result = await response.json();
-            document.getElementById('message').textContent = result.message;
+            if (!response.ok) {
+                const error = await response.json();
+                document.getElementById('message').textContent = error.message;
+                return;
+            }
+            alert(result.message)
+            window.href.location = '/login';
         });
     </script>
 </body>

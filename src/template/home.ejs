@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Signaler un emplacement</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; }
+        .container { max-width: 600px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px #ccc; }
+        label { display: block; margin-top: 15px; }
+        input, textarea { width: 100%; padding: 8px; margin-top: 5px; border-radius: 4px; border: 1px solid #ccc; }
+        button { margin-top: 20px; width: 100%; padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        #map { height: 300px; width: 100%; margin-top: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Signaler un emplacement</h2>
+        <form id="signal-form" enctype="multipart/form-data">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <label for="photo">Photo</label>
+            <input type="file" id="photo" name="photo" accept="image/*" required>
+
+            <label>Choisissez un emplacement sur la carte :</label>
+            <div id="map"></div>
+
+            <!-- Champs cachés pour stocker les coordonnées -->
+            <input type="hidden" id="latitude" name="latitude" required>
+            <input type="hidden" id="longitude" name="longitude" required>
+
+            <button type="submit">Envoyer</button>
+        </form>
+        <div id="message"></div>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialisation de la carte
+        var map = L.map('map').setView([48.8566, 2.3522], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        var marker;
+        map.on('click', function(e) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng).addTo(map);
+            document.getElementById('latitude').value = e.latlng.lat;
+            document.getElementById('longitude').value = e.latlng.lng;
+        });
+
+        document.getElementById('signal-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Vérifie que l'utilisateur a choisi un emplacement
+            if (!document.getElementById('latitude').value || !document.getElementById('longitude').value) {
+                document.getElementById('message').textContent = "Veuillez choisir un emplacement sur la carte.";
+                return;
+            }
+
+            const formData = new FormData(this);
+            
+
+            const response = await fetch('/signalisation', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            document.getElementById('message').textContent = result.message;
+        });
+    </script>
+</body>
+</html>
