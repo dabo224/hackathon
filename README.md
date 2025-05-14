@@ -21,7 +21,7 @@ puis sur la base de navigation gauche appuyez sur nouvelle base de donnée donne
 
 dirigez-vous maintenant vers le fichier du projet puis tapez 
 
-npm instal bcrypt body-parser express jsonwebtoken mariadb multer nomailer path sequelize fs
+npm instal bcrypt body-parser express jsonwebtoken mariadb multer nodemailer path sequelize fs
 
 npm instal morgan nodemon --save-dev
 
