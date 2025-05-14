@@ -25,7 +25,7 @@ npm instal bcrypt body-parser express jsonwebtoken mariadb multer nomailer path 
 
 npm instal morgan nodemon --save-dev
 
-npm start
+nodemon src/app.js
 
 allez dans votre navigateur et tapez 
 
